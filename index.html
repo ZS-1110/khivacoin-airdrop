@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>KhivaCoin Airdrop — 2,500 KIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#B8860B;--gold2:#DAA520;--gold3:#FFD700;--goldlight:rgba(184,134,11,0.12);
+  --dark:#050507;--surface:#0C0C10;--surface2:#111118;--surface3:#18181F;
+  --border:rgba(184,134,11,0.18);--border2:rgba(255,255,255,0.06);
+  --text:#E8E8F0;--muted:#666680;--green:#22C55E;--red:#EF4444;
+  --radius:14px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* BG */
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(184,134,11,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,134,11,0.03) 1px,transparent 1px);
+  background-size:60px 60px}
+.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(184,134,11,0.08),transparent 70%),
+             radial-gradient(ellipse 40% 30% at 100% 100%,rgba(184,134,11,0.04),transparent 60%)}
+
+/* LAYOUT */
+.wrap{position:relative;z-index:1;max-width:660px;margin:0 auto;padding:0 18px 80px}
+
+/* TOP BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;
+  background:rgba(5,5,7,0.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border2)}
+.topbar-logo{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold2);letter-spacing:3px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.lang-btn{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid var(--border2);background:transparent;color:var(--muted);transition:all 0.2s;letter-spacing:0.5px}
+.lang-btn.on{border-color:var(--border);background:var(--goldlight);color:var(--gold2)}
+.lang-btn:hover:not(.on){color:var(--text);border-color:rgba(255,255,255,0.12)}
+.site-link{display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:20px;
+  border:1px solid var(--border);background:var(--goldlight);color:var(--gold2);
+  font-size:11px;font-weight:600;text-decoration:none;letter-spacing:0.5px;transition:all 0.2s}
+.site-link:hover{background:rgba(184,134,11,0.2);color:var(--gold3)}
+
+/* HERO */
+header{text-align:center;padding:110px 0 48px}
+.kic-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;
+  padding:6px 16px;border-radius:20px;
+  background:var(--goldlight);border:1px solid var(--border);
+  font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold2);text-transform:uppercase}
+.kic-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+h1{font-family:'Cinzel',serif;font-size:clamp(28px,5.5vw,44px);font-weight:900;line-height:1.15;
+   margin-bottom:16px;letter-spacing:-0.5px;
+   background:linear-gradient(135deg,#fff 10%,var(--gold2) 55%,var(--gold) 100%);
+   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 36px}
+
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border2);border:1px solid var(--border2);border-radius:var(--radius);
+  overflow:hidden;margin-bottom:28px}
+.stat-cell{background:var(--surface);padding:18px 12px;text-align:center}
+.stat-val{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold2);line-height:1;margin-bottom:4px}
+.stat-label{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.progress-wrap{margin-bottom:32px}
+.progress-track{background:var(--surface2);border-radius:100px;height:4px;overflow:hidden;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold3));border-radius:100px;width:0%;transition:width 1.2s cubic-bezier(0.4,0,0.2,1)}
+.progress-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--muted)}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:28px;margin-bottom:12px;position:relative;overflow:hidden}
+.card-accent{position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 40%,var(--gold2) 60%,transparent 100%);
+  opacity:0.5}
+.card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.step-num{width:32px;height:32px;border-radius:8px;background:var(--goldlight);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;
+  font-size:13px;font-weight:700;color:var(--gold2);flex-shrink:0;margin-top:2px}
+.card-title{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:0.3px}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* SOCIAL ROWS */
+.social-item{display:flex;align-items:center;gap:12px;padding:13px 16px;
+  border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border2);
+  margin-bottom:8px;transition:all 0.25s}
+.social-item.done{background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.2)}
+.soc-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.soc-info{flex:1;min-width:0}
+.soc-name{font-size:13px;font-weight:600;color:var(--text)}
+.soc-handle{font-size:11px;color:var(--muted);margin-top:1px}
+.soc-open{padding:6px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;
+  background:var(--goldlight);border:1px solid var(--border);color:var(--gold2);
+  cursor:pointer;text-decoration:none;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
+.soc-open:hover{background:rgba(184,134,11,0.22);color:var(--gold3)}
+.soc-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+  flex-shrink:0;transition:all 0.3s;color:transparent}
+.social-item.done .soc-check{background:var(--green);border-color:var(--green);color:#000;font-weight:700}
+
+.notice{display:flex;gap:10px;padding:12px 14px;border-radius:var(--radius-sm);
+  background:rgba(184,134,11,0.06);border:1px solid rgba(184,134,11,0.15);
+  font-size:12px;color:var(--muted);line-height:1.6;margin:14px 0 12px}
+.notice-icon{flex-shrink:0;font-size:14px;margin-top:1px}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:14px;border-radius:var(--radius-sm);
+  background:var(--goldlight);border:1px solid var(--border);
+  color:var(--gold2);font-size:13px;font-weight:700;letter-spacing:0.8px;
+  cursor:pointer;transition:all 0.25s}
+.btn-primary:hover:not(:disabled){background:rgba(184,134,11,0.22);color:var(--gold3);border-color:rgba(184,134,11,0.4)}
+.btn-primary:disabled{opacity:0.35;cursor:not-allowed}
+.btn-primary.confirmed{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.25);color:var(--green);cursor:default}
+
+/* WALLET */
+.wallet-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.wallet-opt{padding:13px 10px;border-radius:var(--radius-sm);border:1px solid var(--border2);
+  background:var(--surface2);color:var(--text);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px}
+.wallet-opt:hover{border-color:var(--border);background:var(--surface3);color:var(--gold2)}
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:11px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.addr-field{width:100%;padding:13px 15px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text);font-size:12px;font-family:monospace;outline:none;transition:all 0.25s;margin-bottom:8px}
+.addr-field::placeholder{color:var(--muted);font-family:'Inter',sans-serif;font-size:12px}
+.addr-field:focus{border-color:rgba(184,134,11,0.35);background:var(--surface3)}
+.addr-field.ok{border-color:rgba(34,197,94,0.35)}
+.addr-field.err{border-color:rgba(239,68,68,0.35)}
+.addr-hint{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:12px;padding:0 2px}
+
+/* INSTRUCTION */
+.inst-toggle{display:flex;align-items:center;gap:7px;margin-top:16px;cursor:pointer;
+  font-size:12px;font-weight:600;color:var(--gold2);user-select:none;letter-spacing:0.3px}
+.inst-toggle:hover{color:var(--gold3)}
+.inst-arr{font-size:10px;transition:transform 0.2s}
+.inst-arr.open{transform:rotate(90deg)}
+.inst-body{display:none;margin-top:14px;padding:18px;background:var(--surface2);
+  border-radius:var(--radius-sm);border:1px solid var(--border2)}
+.inst-body.open{display:block}
+.inst-platform{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--gold2);
+  text-transform:uppercase;margin-bottom:10px;margin-top:14px;padding-bottom:6px;
+  border-bottom:1px solid var(--border2)}
+.inst-platform:first-child{margin-top:0}
+.inst-row{display:flex;gap:10px;margin-bottom:9px}
+.inst-n{width:20px;height:20px;border-radius:5px;background:var(--goldlight);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:var(--gold2);flex-shrink:0;margin-top:2px}
+.inst-text{font-size:12px;color:var(--muted);line-height:1.6}
+.inst-text strong{color:var(--text)}
+.app-links{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.app-link{padding:4px 11px;border-radius:5px;background:var(--surface3);
+  font-size:11px;color:var(--text);text-decoration:none;border:1px solid var(--border2);transition:all 0.2s}
+.app-link:hover{border-color:var(--border);color:var(--gold2)}
+
+/* REQUIREMENTS */
+.req-list{margin-bottom:16px;border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden}
+.req-row{display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:var(--surface2);border-bottom:1px solid var(--border2);font-size:13px}
+.req-row:last-child{border-bottom:none}
+.req-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:all 0.3s}
+.req-dot.ok{background:var(--green);box-shadow:0 0 6px rgba(34,197,94,0.4)}
+.req-label{flex:1;color:var(--muted);transition:color 0.3s;font-size:12px}
+.req-label.ok{color:var(--text)}
+.req-status{font-size:11px;color:var(--muted);transition:color 0.3s}
+.req-status.ok{color:var(--green)}
+
+.claim-btn{width:100%;padding:17px;border-radius:var(--radius-sm);font-size:15px;font-weight:700;
+  letter-spacing:2px;cursor:pointer;border:none;font-family:'Cinzel',serif;transition:all 0.35s}
+.claim-btn:disabled{background:var(--surface2);color:rgba(255,255,255,0.15);cursor:not-allowed;border:1px solid var(--border2)}
+.claim-btn.ready{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 50%,var(--gold3) 100%);color:#000;
+  box-shadow:0 0 32px rgba(184,134,11,0.35);animation:glow-pulse 2.5s ease-in-out infinite}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 32px rgba(184,134,11,0.35)}50%{box-shadow:0 0 52px rgba(184,134,11,0.6)}}
+.claim-btn.ready:hover{transform:translateY(-2px);box-shadow:0 6px 48px rgba(184,134,11,0.55)}
+.claim-note{text-align:center;font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:0.3px}
+.claim-note span{color:var(--gold2)}
+
+/* SUCCESS */
+.overlay{display:none;position:fixed;inset:0;background:rgba(5,5,7,0.95);
+  z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+.overlay.show{display:flex}
+.ov-icon{font-size:64px;margin-bottom:20px;animation:pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.ov-title{font-family:'Cinzel',serif;font-size:26px;font-weight:900;color:var(--gold2);margin-bottom:10px}
+.ov-desc{color:var(--muted);font-size:14px;line-height:1.7;max-width:360px;margin-bottom:20px}
+.ov-tx{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:12px 16px;font-size:11px;font-family:monospace;color:var(--gold2);
+  word-break:break-all;max-width:400px;margin-bottom:24px}
+.ov-close{padding:12px 32px;border-radius:100px;background:var(--goldlight);border:1px solid var(--border);
+  color:var(--gold2);font-weight:700;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
+.ov-close:hover{background:rgba(184,134,11,0.22);color:var(--gold3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);
+  padding:11px 20px;font-size:13px;z-index:300;transition:transform 0.3s;
+  white-space:nowrap;max-width:88vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{border-color:rgba(239,68,68,0.35);color:var(--red)}
+.toast.ok{border-color:rgba(34,197,94,0.35);color:var(--green)}
+
+/* FOOTER */
+footer{text-align:center;padding:20px 0 40px;font-size:11px;color:var(--muted);line-height:2}
+footer a{color:var(--gold2);text-decoration:none}
+
+@media(max-width:480px){
+  .topbar{padding:10px 16px}
+  .wallet-grid{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr 1fr 1fr}
+  .stat-val{font-size:17px}
+  h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">KIC</div>
+  <div class="topbar-right">
+    <button class="lang-btn on" onclick="setLang('uz')">UZ</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <a href="https://khivacoin.netlify.app" target="_blank" class="site-link">🌐 <span data-i="siteLink">Rasmiy Sayt</span></a>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- HERO -->
+  <header>
+    <div class="kic-badge"><div class="kic-dot"></div><span data-i="badge">RASMIY AIRDROP</span></div>
+    <h1 data-i="h1">2,500 KIC Token<br/>Bepul Oling</h1>
+    <p class="hero-sub" data-i="heroSub">Shartlarni bajaring va 2,500 KIC tokenini to'g'ridan-to'g'ri hamyoningizga oling. Jami 80,000 ishtirokchi uchun.</p>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat-cell">
+        <div class="stat-val" id="sClaimed">—</div>
+        <div class="stat-label" data-i="statClaimed">Ishtirokchi</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val">80,000</div>
+        <div class="stat-label" data-i="statMax">Jami O'rin</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val" id="sRemaining">—</div>
+        <div class="stat-label" data-i="statLeft">Bo'sh O'rin</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-meta">
+        <span id="progressPct">0%</span>
+        <span data-i="progressLabel">taqsimlandi</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- STEP 1 -->
+  <div class="card">
+    <div class="card-accent"></div>
+    <div class="card-head">
+      <div class="step-num">01</div>
+      <div>
+        <div class="card-title" data-i="s1title">Ijtimoiy Tarmoqlarga Obuna Bo'ling</div>
+        <div class="card-desc" data-i="s1desc">Claim olish uchun quyidagi barcha kanallarga obuna bo'lishingiz shart.</div>
+      </div>
+    </div>
+
+    <div class="social-item" id="row-tg">
+      <span class="soc-icon">✈️</span>
+      <div class="soc-info"><div class="soc-name">Telegram</div><div class="soc-handle">t.me/KhivaCoin</div></div>
+      <a href="https://t.me/KhivaCoin" target="_blank" class="soc-open" onclick="markOpen('tg')" data-i="openBtn">Ochish</a>
+      <div class="soc-check" id="ck-tg">✓</div>
+    </div>
+    <div class="social-item" id="row-tw">
+      <span class="soc-icon">𝕏</span>
+      <div class="soc-info"><div class="soc-name">Twitter / X</div><div class="soc-handle">@KhivaCoin</div></div>
+      <a href="https://twitter.com/KhivaCoin" target="_blank" class="soc-open" onclick="markOpen('tw')" data-i="openBtn">Ochish</a>
+      <div class="soc-check" id="ck-tw">✓</div>
+    </div>
+    <div class="social-item" id="row-ig">
+      <span class="soc-icon">📸</span>
+      <div class="soc-info"><div class="soc-name">Instagram</div><div class="soc-handle">@KhivaCoin</div></div>
+      <a href="https://instagram.com/KhivaCoin" target="_blank" class="soc-open" onclick="markOpen('ig')" data-i="openBtn">Ochish</a>
+      <div class="soc-check" id="ck-ig">✓</div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">⚠️</span>
+      <span data-i="notice1">Har bir havolani oching va haqiqatan obuna bo'ling. Uchala kanal tasdiqlanganidan so'ng tugma aktiv bo'ladi.</span>
+    </div>
+    <button class="btn-primary" id="verifyBtn" onclick="verifySocials()" disabled data-i="verifyBtn">
+      Avval barcha 3 ta havolani oching
+    </button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card">
+    <div class="card-accent"></div>
+    <div class="card-head">
+      <div class="step-num">02</div>
+      <div>
+        <div class="card-title" data-i="s2title">Solana Hamyon Manzilini Kiriting</div>
+        <div class="card-desc" data-i="s2desc">Phantom yoki Solflare hamyonidan manzilni kiriting. 2,500 KIC shu manzilga yuboriladi.</div>
+      </div>
+    </div>
+
+    <div class="wallet-grid">
+      <button class="wallet-opt" onclick="connectExt('phantom')">👻 Phantom</button>
+      <button class="wallet-opt" onclick="connectExt('solflare')">🔆 Solflare</button>
+    </div>
+    <div class="divider" data-i="orManual">yoki qo'lda kiriting</div>
+    <input class="addr-field" id="addrInput" oninput="onAddrInput()"
+      placeholder="Solana wallet manzili..." autocomplete="off" spellcheck="false"/>
+    <div class="addr-hint" data-i="addrHint">Phantom: hamyon nomi ostidagi manzilni nusxa oling · Solflare: "Receive" tugmasidan oling</div>
+    <button class="btn-primary" id="addrBtn" onclick="confirmAddr()" disabled data-i="addrBtn">Manzilni Tasdiqlash</button>
+
+    <!-- INSTRUCTION -->
+    <div class="inst-toggle" onclick="toggleInst()">
+      <span class="inst-arr" id="instArr">▶</span>
+      <span data-i="instToggle">Hamyon yo'q — qanday ochish kerak?</span>
+    </div>
+    <div class="inst-body" id="instBody">
+      <div class="inst-platform">PHANTOM</div>
+      <div class="inst-row"><div class="inst-n">1</div><div class="inst-text" data-i="ph1">Ilovani yuklab o'rnating:<div class="app-links"><a href="https://apps.apple.com/app/phantom-solana-wallet/id1598432977" target="_blank" class="app-link">📱 App Store</a><a href="https://play.google.com/store/apps/details?id=app.phantom" target="_blank" class="app-link">🤖 Google Play</a><a href="https://phantom.app" target="_blank" class="app-link">🌐 phantom.app</a></div></div></div>
+      <div class="inst-row"><div class="inst-n">2</div><div class="inst-text" data-i="ph2"><strong>"Create a new wallet"</strong> → parol o'rnating</div></div>
+      <div class="inst-row"><div class="inst-n">3</div><div class="inst-text" data-i="ph3"><strong style="color:var(--red)">Muhim:</strong> Seed phrase (12 so'z) ni qog'ozga yozing — hech kimga bermang!</div></div>
+      <div class="inst-row"><div class="inst-n">4</div><div class="inst-text" data-i="ph4">Hamyon manzilini nusxa olib, yuqoridagi maydonga kiriting.</div></div>
+      <div class="inst-platform">SOLFLARE</div>
+      <div class="inst-row"><div class="inst-n">1</div><div class="inst-text" data-i="sf1">Ilovani yuklab o'rnating:<div class="app-links"><a href="https://apps.apple.com/app/solflare-wallet/id1580902717" target="_blank" class="app-link">📱 App Store</a><a href="https://play.google.com/store/apps/details?id=com.solflare.mobile" target="_blank" class="app-link">🤖 Google Play</a><a href="https://solflare.com" target="_blank" class="app-link">🌐 solflare.com</a></div></div></div>
+      <div class="inst-row"><div class="inst-n">2</div><div class="inst-text" data-i="sf2"><strong>"I need a new wallet"</strong> → Solana tanlang</div></div>
+      <div class="inst-row"><div class="inst-n">3</div><div class="inst-text" data-i="sf3"><strong>"Receive"</strong> tugmasini bosib manzilni nusxa oling va kiriting.</div></div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card">
+    <div class="card-accent"></div>
+    <div class="card-head">
+      <div class="step-num">03</div>
+      <div>
+        <div class="card-title" data-i="s3title">Tokenlarni Oling</div>
+        <div class="card-desc" data-i="s3desc">Barcha shartlar bajarilgach claim tugmasi aktiv bo'ladi. 2,500 KIC avtomatik yuboriladi.</div>
+      </div>
+    </div>
+    <div class="req-list">
+      <div class="req-row">
+        <div class="req-dot" id="dot-soc"></div>
+        <div class="req-label" id="lbl-soc" data-i="req1">Ijtimoiy tarmoqlarga obuna</div>
+        <div class="req-status" id="st-soc">⏳</div>
+      </div>
+      <div class="req-row">
+        <div class="req-dot" id="dot-wal"></div>
+        <div class="req-label" id="lbl-wal" data-i="req2">Hamyon manzili kiritildi</div>
+        <div class="req-status" id="st-wal">⏳</div>
+      </div>
+    </div>
+    <button class="claim-btn" id="claimBtn" disabled onclick="doClaim()" data-i="claimBtn">CLAIM — 2,500 KIC</button>
+    <div class="claim-note" data-i="claimNote">Har bir hamyon faqat <span>1 marta</span> claim qila oladi</div>
+  </div>
+
+  <footer>
+    <div>© 2026 Khiva Coin (KIC) · Solana Network</div>
+    <div style="margin-top:4px"><a href="https://khivacoin.netlify.app" target="_blank">khivacoin.netlify.app</a> · <a href="https://t.me/KhivaCoin" target="_blank">Telegram</a> · <a href="https://twitter.com/KhivaCoin" target="_blank">Twitter</a></div>
+    <div style="margin-top:8px;font-size:10px;max-width:440px;margin-left:auto;margin-right:auto" data-i="disclaimer">⚠️ Bu moliyaviy maslahat emas. Kriptovalyutaga investitsiya katta xavf tug'diradi. DYOR.</div>
+  </footer>
+</div>
+
+<!-- SUCCESS -->
+<div class="overlay" id="overlay">
+  <div class="ov-icon">🏛️</div>
+  <div class="ov-title" data-i="ovTitle">Tabriklaymiz!</div>
+  <div class="ov-desc" data-i="ovDesc">2,500 KIC muvaffaqiyatli yuborildi. Tokenlar bir necha daqiqa ichida hamyoningizda ko'rinadi.</div>
+  <div class="ov-tx" id="ovTx"></div>
+  <button class="ov-close" onclick="document.getElementById('overlay').classList.remove('show')" data-i="ovClose">Yopish</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── TRANSLATIONS ──────────────────────────────────────────
+const T={
+uz:{
+  siteLink:'Rasmiy Sayt',badge:'RASMIY AIRDROP',
+  h1:'2,500 KIC Token<br/>Bepul Oling',
+  heroSub:"Shartlarni bajaring va 2,500 KIC tokenini to'g'ridan-to'g'ri hamyoningizga oling. Jami 80,000 ishtirokchi uchun.",
+  statClaimed:'Ishtirokchi',statMax:"Jami O'rin",statLeft:"Bo'sh O'rin",
+  progressLabel:'taqsimlandi',
+  s1title:"Ijtimoiy Tarmoqlarga Obuna Bo'ling",
+  s1desc:"Claim olish uchun quyidagi barcha kanallarga obuna bo'lishingiz shart.",
+  openBtn:'Ochish',
+  notice1:"Har bir havolani oching va haqiqatan obuna bo'ling. Uchala kanal tasdiqlanganidan so'ng tugma aktiv bo'ladi.",
+  verifyBtn:'Avval barcha 3 ta havolani oching',
+  verifyReady:"✅ Obunalarni Tasdiqlash",
+  verifyLeft:n=>`Yana ${n} ta kanal`,
+  verifyDone:'✅ Tasdiqlandi',
+  s2title:'Solana Hamyon Manzilini Kiriting',
+  s2desc:"Phantom yoki Solflare hamyonidan manzilni kiriting. 2,500 KIC shu manzilga yuboriladi.",
+  orManual:"yoki qo'lda kiriting",
+  addrHint:"Phantom: hamyon nomi ostidagi manzilni nusxa oling · Solflare: \"Receive\" tugmasidan oling",
+  addrBtn:'Manzilni Tasdiqlash',addrDone:'✅ Tasdiqlandi',
+  instToggle:"Hamyon yo'q — qanday ochish kerak?",
+  ph1:'Ilovani yuklab o\'rnating:',ph2:'"Create a new wallet" → parol o\'rnating',
+  ph3:'Muhim: Seed phrase (12 so\'z) ni qog\'ozga yozing — hech kimga bermang!',
+  ph4:'Hamyon manzilini nusxa olib, yuqoridagi maydonga kiriting.',
+  sf1:'Ilovani yuklab o\'rnating:',sf2:'"I need a new wallet" → Solana tanlang',
+  sf3:'"Receive" tugmasini bosib manzilni nusxa oling va kiriting.',
+  req1:"Ijtimoiy tarmoqlarga obuna",req2:'Hamyon manzili kiritildi',
+  claimBtn:'CLAIM — 2,500 KIC',claimSending:'⏳ Yuborilmoqda...',
+  claimNote:"Har bir hamyon faqat <span>1 marta</span> claim qila oladi",
+  ovTitle:'Tabriklaymiz!',ovDesc:"2,500 KIC muvaffaqiyatli yuborildi. Tokenlar bir necha daqiqa ichida hamyoningizda ko'rinadi.",ovClose:'Yopish',
+  disclaimer:"⚠️ Bu moliyaviy maslahat emas. DYOR.",
+  tOpenAll:"Avval barcha 3 ta havolani oching!",
+  tSocOk:"Obunalar tasdiqlandi!",tWalOk:"Hamyon manzili saqlandi!",
+  tConnected:"Hamyon ulandi!",tNoExt:t=>`${t} topilmadi — qo'lda kiriting`,
+  tBadAddr:"Noto'g'ri manzil formati",tNoServer:"Server bilan aloqa yo'q",
+  tErr:'Xato yuz berdi',tClaimed:'Bu wallet allaqachon airdrop olgan!'
+},
+ru:{
+  siteLink:'Офиц. Сайт',badge:'ОФИЦИАЛЬНЫЙ AIRDROP',
+  h1:'Получите 2,500 KIC<br/>Бесплатно',
+  heroSub:'Выполните условия и получите 2,500 KIC прямо на свой кошелёк. Всего 80,000 мест.',
+  statClaimed:'Участников',statMax:'Всего мест',statLeft:'Осталось',
+  progressLabel:'распределено',
+  s1title:'Подпишитесь на соцсети',
+  s1desc:'Для получения токенов необходимо подписаться на все три канала.',
+  openBtn:'Открыть',
+  notice1:'Откройте каждую ссылку и подпишитесь. После подписки на все три каналы кнопка станет активной.',
+  verifyBtn:'Сначала откройте все 3 ссылки',
+  verifyReady:'✅ Подтвердить подписки',
+  verifyLeft:n=>`Осталось ${n} канала`,
+  verifyDone:'✅ Подтверждено',
+  s2title:'Введите адрес Solana-кошелька',
+  s2desc:'Введите адрес кошелька Phantom или Solflare. Токены будут отправлены на него.',
+  orManual:'или введите вручную',
+  addrHint:'Phantom: скопируйте адрес под именем кошелька · Solflare: кнопка "Receive"',
+  addrBtn:'Подтвердить адрес',addrDone:'✅ Подтверждено',
+  instToggle:'Нет кошелька — как создать?',
+  ph1:'Скачайте приложение:',ph2:'"Create a new wallet" → установите пароль',
+  ph3:'Важно: запишите seed-фразу (12 слов) на бумагу — никому не давайте!',
+  ph4:'Скопируйте адрес кошелька и вставьте в форму выше.',
+  sf1:'Скачайте приложение:',sf2:'"I need a new wallet" → выберите Solana',
+  sf3:'Нажмите "Receive" и скопируйте адрес кошелька.',
+  req1:'Подписка на соцсети',req2:'Адрес кошелька введён',
+  claimBtn:'CLAIM — 2,500 KIC',claimSending:'⏳ Отправляем...',
+  claimNote:'Каждый кошелёк может получить токены только <span>1 раз</span>',
+  ovTitle:'Поздравляем!',ovDesc:'2,500 KIC успешно отправлены. Токены появятся в кошельке в течение нескольких минут.',ovClose:'Закрыть',
+  disclaimer:'⚠️ Это не финансовый совет. DYOR.',
+  tOpenAll:'Сначала откройте все 3 ссылки!',
+  tSocOk:'Подписки подтверждены!',tWalOk:'Адрес кошелька сохранён!',
+  tConnected:'Кошелёк подключён!',tNoExt:t=>`${t} не найден — введите вручную`,
+  tBadAddr:'Неверный формат адреса',tNoServer:'Нет связи с сервером',
+  tErr:'Произошла ошибка',tClaimed:'Этот кошелёк уже получил аирдроп!'
+},
+en:{
+  siteLink:'Official Site',badge:'OFFICIAL AIRDROP',
+  h1:'Get 2,500 KIC<br/>For Free',
+  heroSub:'Complete the steps and receive 2,500 KIC directly to your wallet. Limited to 80,000 participants.',
+  statClaimed:'Participants',statMax:'Total Slots',statLeft:'Slots Left',
+  progressLabel:'distributed',
+  s1title:'Follow Our Social Channels',
+  s1desc:'You must follow all three channels to be eligible for the airdrop.',
+  openBtn:'Open',
+  notice1:'Open each link and follow the channel. The verify button will activate after all three are opened.',
+  verifyBtn:'Open all 3 channels first',
+  verifyReady:'✅ Verify Subscriptions',
+  verifyLeft:n=>`${n} channel(s) left`,
+  verifyDone:'✅ Verified',
+  s2title:'Enter Your Solana Wallet Address',
+  s2desc:'Enter your Phantom or Solflare wallet address. 2,500 KIC will be sent here.',
+  orManual:'or enter manually',
+  addrHint:'Phantom: copy address below wallet name · Solflare: use the "Receive" button',
+  addrBtn:'Confirm Address',addrDone:'✅ Confirmed',
+  instToggle:"No wallet? Here's how to create one",
+  ph1:'Download the app:',ph2:'"Create a new wallet" → set a password',
+  ph3:'Important: write down your seed phrase (12 words) — never share it!',
+  ph4:'Copy your wallet address and paste it into the field above.',
+  sf1:'Download the app:',sf2:'"I need a new wallet" → select Solana',
+  sf3:'Tap "Receive" to copy your wallet address.',
+  req1:'Social media subscriptions',req2:'Wallet address provided',
+  claimBtn:'CLAIM — 2,500 KIC',claimSending:'⏳ Sending...',
+  claimNote:'Each wallet can only claim <span>1 time</span>',
+  ovTitle:'Congratulations!',ovDesc:'2,500 KIC successfully sent. Tokens will appear in your wallet within a few minutes.',ovClose:'Close',
+  disclaimer:'⚠️ This is not financial advice. DYOR.',
+  tOpenAll:'Please open all 3 channels first!',
+  tSocOk:'Subscriptions verified!',tWalOk:'Wallet address saved!',
+  tConnected:'Wallet connected!',tNoExt:t=>`${t} not found — enter manually`,
+  tBadAddr:'Invalid address format',tNoServer:'Cannot reach server',
+  tErr:'An error occurred',tClaimed:'This wallet has already claimed!'
+}};
+
+// ── STATE ─────────────────────────────────────────────────
+let lang='uz';
+const S={opened:{tg:false,tw:false,ig:false},socOk:false,walOk:false,wallet:'',claimed:false};
+
+// ── BACKEND ───────────────────────────────────────────────
+const BACKEND='https://khivacoin.onrender.com';
+
+// ── LANG ──────────────────────────────────────────────────
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+  const t=T[l];
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(t[k]!==undefined) el.innerHTML=t[k];
+  });
+  // Dynamic states
+  const vb=document.getElementById('verifyBtn');
+  if(S.socOk) vb.textContent=t.verifyDone;
+  else{const left=Object.values(S.opened).filter(v=>!v).length;vb.textContent=left===3?t.verifyBtn:left===0?t.verifyReady:t.verifyLeft(left);}
+  const ab=document.getElementById('addrBtn');
+  if(S.walOk) ab.textContent=t.addrDone+' '+S.wallet.slice(0,6)+'...'+S.wallet.slice(-4);
+  if(!S.claimed) document.getElementById('claimBtn').textContent=t.claimBtn;
+  document.getElementById('lbl-soc').textContent=t.req1;
+  document.getElementById('lbl-wal').textContent=t.req2;
+}
+
+// ── STATS ─────────────────────────────────────────────────
+async function loadStats(){
+  try{
+    const d=await(await fetch(`${BACKEND}/api/stats`)).json();
+    document.getElementById('sClaimed').textContent=d.participants.toLocaleString();
+    document.getElementById('sRemaining').textContent=Math.max(0,80000-d.participants).toLocaleString();
+    document.getElementById('progressFill').style.width=d.percent+'%';
+    document.getElementById('progressPct').textContent=d.percent+'%';
+  }catch{
+    document.getElementById('sClaimed').textContent='—';
+    document.getElementById('sRemaining').textContent='—';
+  }
+}
+loadStats();
+setInterval(loadStats,30000);
+
+// ── SOCIALS ───────────────────────────────────────────────
+function markOpen(id){
+  S.opened[id]=true;
+  document.getElementById('row-'+id).classList.add('done');
+  document.getElementById('ck-'+id).textContent='✓';
+  const left=Object.values(S.opened).filter(v=>!v).length;
+  const btn=document.getElementById('verifyBtn');
+  if(left===0){btn.disabled=false;btn.textContent=T[lang].verifyReady;}
+  else btn.textContent=T[lang].verifyLeft(left);
+}
+
+function verifySocials(){
+  if(!S.opened.tg||!S.opened.tw||!S.opened.ig){toast(T[lang].tOpenAll,'err');return;}
+  const btn=document.getElementById('verifyBtn');
+  btn.textContent=T[lang].verifyDone;btn.classList.add('confirmed');btn.disabled=true;
+  S.socOk=true;setReq('soc',true);checkReady();toast(T[lang].tSocOk,'ok');
+}
+
+// ── WALLET ────────────────────────────────────────────────
+async function connectExt(type){
+  try{
+    let p=type==='phantom'?(window?.phantom?.solana||window?.solana):window?.solflare;
+    if(!p){toast(T[lang].tNoExt(type),'err');return;}
+    const r=await p.connect();
+    document.getElementById('addrInput').value=r.publicKey.toString();
+    onAddrInput();toast(T[lang].tConnected,'ok');
+  }catch(e){toast(e.message,'err');}
+}
+
+function onAddrInput(){
+  const v=document.getElementById('addrInput').value.trim();
+  const valid=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(v);
+  document.getElementById('addrInput').className='addr-field '+(v.length>0?(valid?'ok':'err'):'');
+  document.getElementById('addrBtn').disabled=!valid;
+}
+
+function confirmAddr(){
+  const v=document.getElementById('addrInput').value.trim();
+  if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(v)){toast(T[lang].tBadAddr,'err');return;}
+  S.wallet=v;S.walOk=true;
+  const btn=document.getElementById('addrBtn');
+  btn.textContent=T[lang].addrDone+' '+v.slice(0,6)+'...'+v.slice(-4);
+  btn.classList.add('confirmed');btn.disabled=true;
+  document.getElementById('addrInput').disabled=true;
+  setReq('wal',true);checkReady();toast(T[lang].tWalOk,'ok');
+}
+
+function toggleInst(){
+  const b=document.getElementById('instBody'),a=document.getElementById('instArr');
+  b.classList.toggle('open');a.classList.toggle('open');
+}
+
+// ── REQUIREMENTS ──────────────────────────────────────────
+function setReq(id,ok){
+  document.getElementById('dot-'+id).classList.toggle('ok',ok);
+  document.getElementById('lbl-'+id).classList.toggle('ok',ok);
+  document.getElementById('st-'+id).textContent=ok?'✅':'⏳';
+  document.getElementById('st-'+id).classList.toggle('ok',ok);
+}
+function checkReady(){
+  if(S.socOk&&S.walOk){const b=document.getElementById('claimBtn');b.disabled=false;b.classList.add('ready');}
+}
+
+// ── CLAIM ─────────────────────────────────────────────────
+async function doClaim(){
+  if(!S.socOk||!S.walOk)return;
+  const btn=document.getElementById('claimBtn');
+  btn.textContent=T[lang].claimSending;btn.disabled=true;btn.classList.remove('ready');
+  try{
+    const r=await fetch(`${BACKEND}/api/claim`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({wallet:S.wallet})});
+    const d=await r.json();
+    if(d.success){
+      S.claimed=true;
+      document.getElementById('ovTx').textContent='TX: '+d.txHash;
+      document.getElementById('overlay').classList.add('show');
+      loadStats();
+    }else{
+      btn.textContent=T[lang].claimBtn;btn.disabled=false;btn.classList.add('ready');
+      toast(d.message||T[lang].tErr,'err');
+    }
+  }catch{
+    btn.textContent=T[lang].claimBtn;btn.disabled=false;btn.classList.add('ready');
+    toast(T[lang].tNoServer,'err');
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast '+type+' show';
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
